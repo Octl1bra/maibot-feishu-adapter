@@ -34,7 +34,10 @@ async def test_data_envelope_still_unwrapped():
 
 
 async def test_error_code_raises():
-    api = FeishuAPI(_Session({"/im/v1/chats/oc_2": {"code": 99991672, "msg": "no scope"}}), "cli", "sec", "https://x")
+    api = FeishuAPI(_Session({
+        "/im/v1/chats/oc_2": {"code": 99991672, "msg": "no scope"},
+        "/im/v1/messages/om/resources/key": {"code": 230002, "msg": "no such resource"},
+    }), "cli", "sec", "https://x")
     assert (await api.chat_name("oc_2")).startswith("飞书群")   # chat_name 内部吞掉错误退化
     with pytest.raises(FeishuAPIError):
         await api.download_message_resource("om", "key")
