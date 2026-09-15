@@ -104,7 +104,10 @@ class FeishuAPI:
             body = await resp.json(content_type=None)
         code = body.get("code", -1)
         if code == 0:
-            return body.get("data", {})
+            # 绝大多数接口把结果包在 data 里；bot/v3/info 这类老接口直接平铺在顶层（{"code":0,"bot":{...}}）
+            if "data" in body:
+                return body.get("data") or {}
+            return {k: v for k, v in body.items() if k not in ("code", "msg")}
         if code in _TOKEN_EXPIRED_CODES and _retry:
             await self.tenant_token(force_refresh=True)
             return await self._request(method, path, params=params, json=json, data=data, raw=raw, _retry=False)
