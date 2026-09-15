@@ -25,7 +25,7 @@
 | `MAIBOT_PLATFORM` | `feishu` | 平台名，要和 MaiBot `[bot] platforms` 里的前缀一致 |
 | `MAIBOT_TOKEN` | 空 | 对应 MaiBot `[maim_message] auth_token` |
 | `FEISHU_CHAT_ALLOWLIST` | 空=全部 | 逗号分隔的 chat_id，或 `p2p` 表示放行所有私聊 |
-| `HEALTH_PORT` | `8765` | `GET /healthz` |
+| `HEALTH_PORT` | `8765` | `GET /healthz`（readiness：两条链路都通才 200）、`GET /livez`（liveness：进程活着就 200） |
 | `LOG_LEVEL` | `INFO` | |
 
 ## MaiBot 侧要改的一处配置
