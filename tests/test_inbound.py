@@ -50,7 +50,7 @@ async def test_mentions_become_at_segments_and_flag_bot():
     first_at = msg.message_segment.data[0].data
     assert first_at["target_user_id"] == "ou_bot" and first_at["target_user_nickname"] == "麦麦"
     assert msg.message_info.additional_config["at_bot"] is True
-    assert msg.raw_message == "@麦麦 早上好 @Bob 你也是"
+    assert msg.raw_message == "@麦麦早上好 @Bob你也是"
 
 
 async def test_mention_other_user_does_not_flag_bot():

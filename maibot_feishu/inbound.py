@@ -88,6 +88,8 @@ def _text_with_mentions(text: str, mentions: dict[str, dict[str, str]], bot: Bot
         if info is None:
             continue
         before = text[pos : match.start()]
+        if before and segments and segments[-1]["type"] == "at" and before.startswith(" "):
+            before = before[1:]
         if before:
             segments.append({"type": "text", "data": before})
             plain_parts.append(before)
@@ -109,8 +111,12 @@ def _text_with_mentions(text: str, mentions: dict[str, dict[str, str]], bot: Bot
         pos = match.end()
     rest = text[pos:]
     if rest:
-        segments.append({"type": "text", "data": rest})
-        plain_parts.append(rest)
+        # 飞书文本里 @ 后面自带一个空格，MaiBot 渲染 @ 段时也会补空格，去掉一个避免双空格
+        if segments and segments[-1]["type"] == "at" and rest.startswith(" "):
+            rest = rest[1:]
+        if rest:
+            segments.append({"type": "text", "data": rest})
+            plain_parts.append(rest)
     return ParsedContent(segments=segments, plain_text="".join(plain_parts).strip(), mentioned_bot=mentioned)
 
 

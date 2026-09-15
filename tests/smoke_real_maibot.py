@@ -8,6 +8,7 @@ import asyncio
 import json
 import logging
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -46,7 +47,7 @@ async def main() -> int:
             ("@_user_1 你在吗？", [mention("@_user_1", "ou_bot", "麦麦")]),
         ]
     ):
-        ev = make_event(message_id=f"om_smoke_{i}", content=json.dumps({"text": text}), mentions=mentions)
+        ev = make_event(message_id=f"om_smoke_{int(time.time())}_{i}", content=json.dumps({"text": text}), mentions=mentions)
         msg = await event_to_message(ev, api, bot, frozenset(), RecentIds())
         await link.send(msg)
         print(f"→ 已投递: {text}")
