@@ -1,0 +1,13 @@
+[project]
+name = "maibot-feishu-adapter"
+version = "0.1.0"
+description = "MaiBot ↔ 飞书桥接（旧版 maim_message WebSocket + 飞书长连接）"
+requires-python = ">=3.12"
+dependencies = ["maim-message==0.6.8", "lark-oapi>=1.4.0,<2", "aiohttp>=3.10,<4"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
